@@ -9,7 +9,9 @@ import os
 data = []
 
 headers = {
-    "User-Agent": "Mozilla/5.0"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 }
 
 BASE_URL = "https://www.flipkart.com"
@@ -99,7 +101,19 @@ for page in range(1, 100):
 
     url = f"https://www.flipkart.com/search?q=smart+phones&page={page}"
 
-    response = requests.get(url, headers=headers)
+    try:
+        response = requests.get(url, headers=headers, timeout=20)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Page {page} failed: {e}")
+        empty_pages += 1
+
+        if empty_pages >= 3:
+            print("3 continuous failed pages found. Stopping scraper.")
+            break
+
+        time.sleep(5)
+        continue
 
     soup = BeautifulSoup(response.text, "html.parser")
 
