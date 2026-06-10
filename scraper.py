@@ -206,7 +206,7 @@ df.insert(0, "S.No", range(1, len(df) + 1))
 # Save CSV
 # ----------------------------
 
-path = r"C:/Users/Lenovo/Downloads/OneDrive/Desktop/Working_Projects/Project4/Smart_Phones.csv"
+path = f"data/Smart_Phones_{datetime.now().strftime('%Y-%m-%d')}.csv"
 
 df.to_csv(path, index=False, encoding="utf-8-sig")
 
