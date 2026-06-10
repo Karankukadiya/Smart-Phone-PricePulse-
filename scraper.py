@@ -4,6 +4,7 @@ import pandas as pd
 import re
 import time
 from datetime import datetime
+import os
 
 data = []
 
@@ -207,7 +208,7 @@ df.insert(0, "S.No", range(1, len(df) + 1))
 # ----------------------------
 
 path = f"data/Smart_Phones_{datetime.now().strftime('%Y-%m-%d')}.csv"
-
+os.makedirs("data", exist_ok=True)
 df.to_csv(path, index=False, encoding="utf-8-sig")
 
 print("\nScraping Completed Successfully")
